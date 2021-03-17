@@ -1,0 +1,58 @@
+
+es解决问题 大数据搜索
+
+大厂几乎都在用es
+
+mysql的所有是B+树
+
+dataPage 默认16k
+
+数据量大、文本过长 二叉树会很深、检索时候IO开销大，引出一个问题，搜索问题
+
+倒排索引如何解决上述搜索问题？
+
+检索域内容 分词，按字典序排列
+term index（） ， term dictionary ，posting list 倒排表（存储所有包含词项的所有id，数据结构为 int 类型有序数组）
+倒排索引的数据结构 term index ，term dictionary ， posting list
+
+es 中 score 评分算法  BM25 ， TF-IDF
+
+FST ，在term index  和 term dictiona 中使用的 数据结构 
+
+分词器 中文 IK 
+
+倒排表 frame of reference （解决稠密数组） ， bitMap ，roaring bitmap（解决稀疏数组）
+
+通用最小化算法，最左匹配，有比当前值小的重新计算，file output 上放
+
+字典数据类型，hashmap ， skipList 跳表 ，tried字典数 ，fst
+
+
+prefix 前缀，
+
+网站 
+https://www.cs.usfca.edu/~galles/visualization/Algorithms.html 
+
+http://examples.mikemccandless.com/fst.py?terms=msb%2F10%0D%0Amsbtech%2F5%0D%0Amsn%2F2%0D%0Awltech%2F8&cmd=Build+it%21
+看第二版 更全
+
+倒排索引底层实现原理？
+  字典数
+  终结节点，
+  前缀树（不行），
+  
+fsm ， finite state machines ， 有限状态机，状态是可以转换的，同一时间只有一个状态，
+
+fsa， 有限状态接收机，有始有终，任然使用节点标识
+
+fst，
+
+
+
+es 写入原理？
+每一个segment文件即一个倒排索引文件，
+
+写入 buffer ，（refresh 发送在 jvm  中，频率越少越少，写入实时性变低 ，降低写入频次，提高检索性能）写入 index segment file ，写入 os cache ，
+translog 触发flush，
+
+聚合检索使用正排索引，全文检索使用倒排索引
